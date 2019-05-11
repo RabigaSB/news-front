@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 
 import {connect} from "react-redux";
-import {fetchNews} from "../../store/actions/actions-news";
+import {fetchNews, deletePost} from "../../store/actions/actions-news";
 import {Link} from "react-router-dom";
 import Thumbnail from '../../components/Thumbnail/Thumbnail';
 
@@ -10,6 +10,13 @@ class News extends Component {
 	componentDidMount() {
 		this.props.onFetchNews();
 	}
+
+	deletePost = id => {
+		this.props.onDeletePost(id)
+			.then((res) => {
+				this.props.onFetchNews();
+			});
+	};
 
 	render() {
 		return (
@@ -33,7 +40,9 @@ class News extends Component {
 						</div>
 
 						<div className="text-right">
-							<div className="mb-3"><button className="btn btn-light">Delete</button></div>
+							<div className="mb-3">
+								<button className="btn btn-light" onClick={() => this.deletePost(post.id)}>Delete</button>
+							</div>
 							<Link to={"/news/" + post.id}>Read Full Post >></Link>
 						</div>
 					</div>
@@ -56,8 +65,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onFetchNews: () => dispatch(fetchNews())
-	};
+		onFetchNews: () => dispatch(fetchNews()),
+		onDeletePost: id => dispatch(deletePost(id))
+ 	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(News);

@@ -1,4 +1,4 @@
-import {FETCH_NEWS_SUCCESS, CREATE_POST_SUCCESS} from './actionTypes';
+import {FETCH_NEWS_SUCCESS, CREATE_POST_SUCCESS, DELETE_POST_SUCCESS} from './actionTypes';
 import axios from '../../axios-api';
 
 export const fetchNewsSuccess = data => {
@@ -21,6 +21,18 @@ export const createPost = (data) => {
 	return dispatch => {
 		return axios.post('/news', data).then(
 			response => dispatch(createPostSuccess())
+		);
+	};
+};
+
+export const deletePostSuccess = () => {
+	return {type: DELETE_POST_SUCCESS};
+};
+
+export const deletePost = (id) => {
+	return dispatch => {
+		return axios.delete('/news/' + id).then(
+			response => dispatch(deletePostSuccess())
 		);
 	};
 };
