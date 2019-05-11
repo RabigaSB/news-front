@@ -2,8 +2,7 @@ import React, {Component, Fragment} from 'react';
 
 import {connect} from "react-redux";
 import {fetchPost, deletePost, fetchComments} from "../../store/actions/actions-news";
-import {Link} from "react-router-dom";
-import Thumbnail from '../../components/Thumbnail/Thumbnail';
+import {Button, Col, Form, FormGroup, Input, Label} from 'reactstrap';
 
 
 class Post extends Component {
@@ -42,22 +41,15 @@ class Post extends Component {
 				<p className="mb-5">{this.state.article}</p>
 				<h2>Comments</h2>
 				{
-					this.props.posts?
-						this.props.posts.map(post => (
-								<div key={post.id} className="d-flex border rounded justify-content-between mb-2 p-1">
-									<div className="d-flex justify-content-between">
-										<Thumbnail image = {post.image}/>
-										<div className="ml-5">
-											<p className="h6 text-secondary">{post.date}</p>
-											<p className="h4 mt-4">{post.title}</p>
-										</div>
+					this.props.comments?
+						this.props.comments.map(comment => (
+								<div key={comment.id} className="d-flex border rounded justify-content-between mb-2 p-1">
+									<div className="h5">
+										<p className="h6 text-secondary">{comment.author} says:</p>
+										{comment.comment}
 									</div>
-
 									<div className="text-right">
-										<div className="mb-3">
-											<button className="btn btn-light" onClick={() => this.deletePost(post.id)}>Delete</button>
-										</div>
-										<Link to={"/news/" + post.id}>Read Full Post >></Link>
+										<button className="btn btn-light" onClick={() => this.deletePost(comment.id)}>Delete</button>
 									</div>
 								</div>
 							)
@@ -66,6 +58,41 @@ class Post extends Component {
 						<p className="h6 text-secondary mb-5">Be the first person to comment</p>
 
 				}
+
+				<h2 className="mt-5">Add Comments</h2>
+				<Form onSubmit={this.submitFormHandler}>
+					<FormGroup row>
+						<Label sm={2} for="title">Title</Label>
+						<Col sm={10}>
+							<Input
+								type="text" required
+								name="title" id="title"
+								placeholder="Enter product title"
+								value={this.state.title}
+								onChange={this.inputChangeHandler}
+							/>
+						</Col>
+					</FormGroup>
+
+					<FormGroup row>
+						<Label sm={2} for="article">Description</Label>
+						<Col sm={10}>
+							<Input
+								type="textarea" required
+								name="article" id="article"
+								placeholder="Type to post"
+								value={this.state.article}
+								onChange={this.inputChangeHandler}
+							/>
+						</Col>
+					</FormGroup>
+
+					<FormGroup row>
+						<Col sm={{offset:2, size: 10}}>
+							<Button type="submit" color="primary">Save</Button>
+						</Col>
+					</FormGroup>
+				</Form>
 			</Fragment>
 		);
 	}
