@@ -3,7 +3,7 @@ import {
 	CREATE_POST_SUCCESS,
 	DELETE_POST_SUCCESS,
 	FETCH_POST_SUCCESS,
-	FETCH_COMMENTS_SUCCESS, CREATE_COMMENT_SUCCESS
+	FETCH_COMMENTS_SUCCESS, CREATE_COMMENT_SUCCESS, DELETE_COMMENT_SUCCESS
 } from './actionTypes';
 import axios from '../../axios-api';
 
@@ -59,7 +59,6 @@ export const fetchComments = id => {
 		return axios.get('/comments?news_id=' + id).then(
 			response => {
 				dispatch(fetchCommentsSuccess(response.data));
-				console.log(response.data);
 			}
 		)
 	};
@@ -72,6 +71,17 @@ export const createComment = (data) => {
 	return dispatch => {
 		return axios.post('/comments', data).then(
 			response => dispatch(createCommentSuccess())
+		);
+	};
+};
+
+export const deleteCommentSuccess = () => {
+	return {type: DELETE_COMMENT_SUCCESS};
+};
+export const deleteComment = (id) => {
+	return dispatch => {
+		return axios.delete('/comments/' + id).then(
+			response => dispatch(deleteCommentSuccess())
 		);
 	};
 };

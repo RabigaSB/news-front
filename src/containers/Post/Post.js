@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 
 import {connect} from "react-redux";
-import {fetchPost, deletePost, fetchComments, createComment} from "../../store/actions/actions-news";
+import {fetchPost, deleteComment, fetchComments, createComment} from "../../store/actions/actions-news";
 import {Button, Col, Form, FormGroup, Input, Label} from 'reactstrap';
 
 
@@ -53,10 +53,10 @@ class Post extends Component {
 		});
 	};
 
-	deletePost = id => {
-		this.props.onDeletePost(id)
+	deleteComment = id => {
+		this.props.onDeleteComment(id)
 			.then((res) => {
-				this.props.onFetchNews();
+				this.props.onFetchComments(this.props.match.params.id);
 			});
 	};
 
@@ -76,7 +76,7 @@ class Post extends Component {
 										{comment.comment}
 									</div>
 									<div className="text-right">
-										<button className="btn btn-light" onClick={() => this.deletePost(comment.id)}>Delete</button>
+										<button className="btn btn-light" onClick={() => this.deleteComment(comment.id)}>Delete</button>
 									</div>
 								</div>
 							)
@@ -135,7 +135,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onFetchPost: id => dispatch(fetchPost(id)),
 		onFetchComments: id => dispatch(fetchComments(id)),
-		onDeletePost: id => dispatch(deletePost(id)),
+		onDeleteComment: id => dispatch(deleteComment(id)),
 		onSubmit: data => dispatch(createComment(data))
 	};
 };
