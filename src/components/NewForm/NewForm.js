@@ -39,7 +39,6 @@ class NewForm extends Component {
 	};
 
 	fileChangeHandler = e => {
-		// console.log(e.target);
 		this.setState({image: e.target.files[0]})
 	};
 
@@ -80,7 +79,6 @@ class NewForm extends Component {
 							onChange={this.fileChangeHandler}
 						/>
 					</Col>
-					{/* multiple for multiple file choice*/}
 				</FormGroup>
 				<FormGroup row>
 					<Col sm={{offset:2, size: 10}}>

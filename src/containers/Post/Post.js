@@ -14,6 +14,8 @@ class Post extends Component {
 		author: "",
 		comment: ""
 	};
+
+
 	componentDidMount() {
 		this.props.onFetchPost(this.props.match.params.id)
 			.then(() => {
@@ -27,6 +29,8 @@ class Post extends Component {
 			});
 		this.props.onFetchComments(this.props.match.params.id);
 	}
+
+
 
 	submitFormHandler = event => {
 		event.preventDefault();
@@ -47,11 +51,15 @@ class Post extends Component {
 			});
 	};
 
+
+
 	inputChangeHandler = event => {
 		this.setState({
 			[event.target.name]: event.target.value
 		});
 	};
+
+
 
 	deleteComment = id => {
 		this.props.onDeleteComment(id)
@@ -60,15 +68,19 @@ class Post extends Component {
 			});
 	};
 
+
+
 	render() {
 		return (
 			<Fragment>
 				<h2>{this.state.title}</h2>
 				<p className='h6 text-secondary mb-5'>{this.state.date}</p>
 				<p className="mb-5">{this.state.article}</p>
+
+
 				<h2>Comments</h2>
 				{
-					this.props.comments?
+					this.props.comments.length?
 						this.props.comments.map(comment => (
 								<div key={comment.id} className="d-flex border rounded justify-content-between mb-2 p-1">
 									<div className="h5">
@@ -86,6 +98,8 @@ class Post extends Component {
 
 				}
 
+
+
 				<h2 className="mt-5">Add Comment</h2>
 				<Form onSubmit={this.submitFormHandler}>
 					<FormGroup row>
@@ -99,7 +113,6 @@ class Post extends Component {
 							/>
 						</Col>
 					</FormGroup>
-
 					<FormGroup row>
 						<Label sm={2} for="comment">Comment</Label>
 						<Col sm={10}>
@@ -112,7 +125,6 @@ class Post extends Component {
 							/>
 						</Col>
 					</FormGroup>
-
 					<FormGroup row>
 						<Col sm={{offset:2, size: 10}}>
 							<Button type="submit" color="dark">Save</Button>

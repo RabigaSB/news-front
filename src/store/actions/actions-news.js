@@ -3,9 +3,13 @@ import {
 	CREATE_POST_SUCCESS,
 	DELETE_POST_SUCCESS,
 	FETCH_POST_SUCCESS,
-	FETCH_COMMENTS_SUCCESS, CREATE_COMMENT_SUCCESS, DELETE_COMMENT_SUCCESS
+	FETCH_COMMENTS_SUCCESS,
+	CREATE_COMMENT_SUCCESS,
+	DELETE_COMMENT_SUCCESS
 } from './actionTypes';
 import axios from '../../axios-api';
+
+
 
 export const fetchNewsSuccess = data => {
 	return {type: FETCH_NEWS_SUCCESS, data};
@@ -18,6 +22,7 @@ export const fetchNews = () => {
 	};
 };
 
+
 export const createPostSuccess = () => {
 	return {type: CREATE_POST_SUCCESS};
 };
@@ -28,6 +33,7 @@ export const createPost = (data) => {
 		);
 	};
 };
+
 
 export const deletePostSuccess = () => {
 	return {type: DELETE_POST_SUCCESS};
@@ -40,6 +46,7 @@ export const deletePost = (id) => {
 	};
 };
 
+
 export const fetchPostSuccess = data => {
 	return {type: FETCH_POST_SUCCESS, data};
 };
@@ -50,6 +57,7 @@ export const fetchPost = id => {
 		)
 	};
 };
+
 
 export const fetchCommentsSuccess = data => {
 	return {type: FETCH_COMMENTS_SUCCESS, data};
@@ -64,6 +72,7 @@ export const fetchComments = id => {
 	};
 };
 
+
 export const createCommentSuccess = () => {
 	return {type: CREATE_COMMENT_SUCCESS};
 };
@@ -74,6 +83,7 @@ export const createComment = (data) => {
 		);
 	};
 };
+
 
 export const deleteCommentSuccess = () => {
 	return {type: DELETE_COMMENT_SUCCESS};
