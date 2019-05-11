@@ -1,4 +1,10 @@
-import {FETCH_NEWS_SUCCESS, CREATE_POST_SUCCESS, DELETE_POST_SUCCESS} from './actionTypes';
+import {
+	FETCH_NEWS_SUCCESS,
+	CREATE_POST_SUCCESS,
+	DELETE_POST_SUCCESS,
+	FETCH_POST_SUCCESS,
+	FETCH_COMMENTS_SUCCESS
+} from './actionTypes';
 import axios from '../../axios-api';
 
 export const fetchNewsSuccess = data => {
@@ -34,5 +40,32 @@ export const deletePost = (id) => {
 		return axios.delete('/news/' + id).then(
 			response => dispatch(deletePostSuccess())
 		);
+	};
+};
+
+export const fetchPostSuccess = data => {
+	return {type: FETCH_POST_SUCCESS, data};
+};
+
+export const fetchPost = id => {
+	return dispatch => {
+		return axios.get('/news/' + id).then(
+			response => dispatch(fetchPostSuccess(response.data[0]))
+		)
+	};
+};
+
+export const fetchCommentsSuccess = data => {
+	return {type: FETCH_COMMENTS_SUCCESS, data};
+};
+
+export const fetchComments = id => {
+	return dispatch => {
+		return axios.get('/comments?news_id=' + id).then(
+			response => {
+				dispatch(fetchCommentsSuccess(response.data));
+				console.log(response.data);
+			}
+		)
 	};
 };
