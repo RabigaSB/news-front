@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 
 import {connect} from "react-redux";
-import {fetchPost, deletePost, fetchComments} from "../../store/actions/actions-news";
+import {fetchPost, deletePost, fetchComments, createComment} from "../../store/actions/actions-news";
 import {Button, Col, Form, FormGroup, Input, Label} from 'reactstrap';
 
 
@@ -10,7 +10,9 @@ class Post extends Component {
 		title: "",
 		article: "",
 		date: "",
-		id: ""
+		id: "",
+		author: "",
+		comment: ""
 	};
 	componentDidMount() {
 		this.props.onFetchPost(this.props.match.params.id)
@@ -25,6 +27,31 @@ class Post extends Component {
 			});
 		this.props.onFetchComments(this.props.match.params.id);
 	}
+
+	submitFormHandler = event => {
+		event.preventDefault();
+
+		const formData = new FormData();
+
+		formData.append("author", this.state.author);
+		formData.append("comment", this.state.comment);
+		formData.append("news_id", this.props.match.params.id);
+
+		this.props.onSubmit(formData)
+			.then(() => {
+				this.props.onFetchComments(this.props.match.params.id);
+				this.setState({
+					author: "",
+					comment: ""
+				});
+			});
+	};
+
+	inputChangeHandler = event => {
+		this.setState({
+			[event.target.name]: event.target.value
+		});
+	};
 
 	deletePost = id => {
 		this.props.onDeletePost(id)
@@ -59,29 +86,28 @@ class Post extends Component {
 
 				}
 
-				<h2 className="mt-5">Add Comments</h2>
+				<h2 className="mt-5">Add Comment</h2>
 				<Form onSubmit={this.submitFormHandler}>
 					<FormGroup row>
-						<Label sm={2} for="title">Title</Label>
+						<Label sm={2} for="author">Name</Label>
 						<Col sm={10}>
 							<Input
-								type="text" required
-								name="title" id="title"
-								placeholder="Enter product title"
-								value={this.state.title}
+								type="text"
+								name="author" id="author"
+								value={this.state.author}
 								onChange={this.inputChangeHandler}
 							/>
 						</Col>
 					</FormGroup>
 
 					<FormGroup row>
-						<Label sm={2} for="article">Description</Label>
+						<Label sm={2} for="comment">Comment</Label>
 						<Col sm={10}>
 							<Input
 								type="textarea" required
-								name="article" id="article"
+								name="comment" id="comment"
 								placeholder="Type to post"
-								value={this.state.article}
+								value={this.state.comment}
 								onChange={this.inputChangeHandler}
 							/>
 						</Col>
@@ -89,7 +115,7 @@ class Post extends Component {
 
 					<FormGroup row>
 						<Col sm={{offset:2, size: 10}}>
-							<Button type="submit" color="primary">Save</Button>
+							<Button type="submit" color="dark">Save</Button>
 						</Col>
 					</FormGroup>
 				</Form>
@@ -109,7 +135,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onFetchPost: id => dispatch(fetchPost(id)),
 		onFetchComments: id => dispatch(fetchComments(id)),
-		onDeletePost: id => dispatch(deletePost(id))
+		onDeletePost: id => dispatch(deletePost(id)),
+		onSubmit: data => dispatch(createComment(data))
 	};
 };
 

@@ -3,14 +3,13 @@ import {
 	CREATE_POST_SUCCESS,
 	DELETE_POST_SUCCESS,
 	FETCH_POST_SUCCESS,
-	FETCH_COMMENTS_SUCCESS
+	FETCH_COMMENTS_SUCCESS, CREATE_COMMENT_SUCCESS
 } from './actionTypes';
 import axios from '../../axios-api';
 
 export const fetchNewsSuccess = data => {
 	return {type: FETCH_NEWS_SUCCESS, data};
 };
-
 export const fetchNews = () => {
 	return dispatch => {
 		return axios.get('/news').then(
@@ -22,7 +21,6 @@ export const fetchNews = () => {
 export const createPostSuccess = () => {
 	return {type: CREATE_POST_SUCCESS};
 };
-
 export const createPost = (data) => {
 	return dispatch => {
 		return axios.post('/news', data).then(
@@ -34,7 +32,6 @@ export const createPost = (data) => {
 export const deletePostSuccess = () => {
 	return {type: DELETE_POST_SUCCESS};
 };
-
 export const deletePost = (id) => {
 	return dispatch => {
 		return axios.delete('/news/' + id).then(
@@ -46,7 +43,6 @@ export const deletePost = (id) => {
 export const fetchPostSuccess = data => {
 	return {type: FETCH_POST_SUCCESS, data};
 };
-
 export const fetchPost = id => {
 	return dispatch => {
 		return axios.get('/news/' + id).then(
@@ -58,7 +54,6 @@ export const fetchPost = id => {
 export const fetchCommentsSuccess = data => {
 	return {type: FETCH_COMMENTS_SUCCESS, data};
 };
-
 export const fetchComments = id => {
 	return dispatch => {
 		return axios.get('/comments?news_id=' + id).then(
@@ -67,5 +62,16 @@ export const fetchComments = id => {
 				console.log(response.data);
 			}
 		)
+	};
+};
+
+export const createCommentSuccess = () => {
+	return {type: CREATE_COMMENT_SUCCESS};
+};
+export const createComment = (data) => {
+	return dispatch => {
+		return axios.post('/comments', data).then(
+			response => dispatch(createCommentSuccess())
+		);
 	};
 };
